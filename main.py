@@ -31,7 +31,16 @@ def run_selenium_script():
     # 브라우저 닫기
     driver.quit()
 
+
+
+raw = pd.read_excel('/Users/master/dev/PythonPr/crawler/AccessOn/input/학술논문-08.xlsx',
+                         sheet_name = '데이터-08',
+                         usecols=['NO', '논문명', '논문 외국어명', 'DOI', '링크', '링크 사이트의\nCCL 등급', 'AccessON의 \nCCL 등급'])
+raw['DOI'] = raw['DOI'].fillna('Missing').astype(str)
+
+def clean_string(word):
+  return re.sub(r'\s+|\W+', '', word)
+
+
 if __name__ == "__main__":
     run_selenium_script()
-
-raw_data = 
