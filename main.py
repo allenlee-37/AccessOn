@@ -108,7 +108,7 @@ def copyright_title(DOI, thesis_title):
 def get_accesson_status(start, end):
     '''start~end까지의 데이터를 검색하고 엑셀로 저장'''
     # 파일을 저장할 경로
-    output_file_path = f'/Users/master/dev/PythonPr/crawler/AccessOn/output/AccessOn_output_file_{start}_{end}.xlsx'
+    output_file_path = f'output/AccessOn_output_file_{start}_{end}.xlsx'
     df = raw.iloc[start:end]
     thesis_title_list = df['논문 외국어명'].tolist() # 논문 외국어명 리스트
     DOI_list = df['DOI'].tolist() # 논문 DOI 리스트 
@@ -123,7 +123,8 @@ def get_accesson_status(start, end):
         progress_bar.update(1) # tqdm 업데이트 +1
         delete_pdf() # 불필요한 pdf파일 삭제
         df = df.copy()
-        df.loc[:, 'CCL'] = copyright_status # 슬라이싱된 파일에 리스트를 입력
+       
+    df.loc[:, 'CCL'] = copyright_status # 슬라이싱된 파일에 리스트를 입력
 
     df.to_excel(output_file_path, index=False) # df를 엑셀 파일로 저장
     print(f"DataFrame saved to {output_file_path}") # 완료 현황 프린트
@@ -150,7 +151,7 @@ if __name__ == "__main__":
     driver = webdriver.Chrome(service=service, options=options) # 크롬 드라이버 실행
     
     # 원시 데이터 불러오기
-    raw = pd.read_excel('/Users/master/dev/PythonPr/crawler/AccessOn/input/학술논문-08.xlsx',
+    raw = pd.read_excel('input/학술논문-08.xlsx',
                             sheet_name = '데이터-08',
                             usecols=['NO', '논문명', '논문 외국어명', 'DOI', '링크', '링크 사이트의\nCCL 등급', 'AccessON의 \nCCL 등급'])
     raw['DOI'] = raw['DOI'].fillna('Missing').astype(str) # DOI가 없는 열은 'Missing'으로 대체
